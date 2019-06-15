@@ -13,6 +13,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -105,7 +107,15 @@ public interface LayoutHelper {
     }
 
     default MenuItem menuItem(String text, Runnable action) {
+        return menuItem(text, null, action);
+    }
+
+    default MenuItem menuItem(String text, String iconPath, Runnable action) {
         MenuItem menuItem = new MenuItem(text);
+        if (iconPath != null) {
+            Image image = new Image(LayoutHelper.class.getResourceAsStream(iconPath), 16, 16, true, true);
+            menuItem.setGraphic(new ImageView(image));
+        }
         if (action != null) {
             menuItem.setOnAction(e -> action.run());
         }
